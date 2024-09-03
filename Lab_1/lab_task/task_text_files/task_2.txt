@@ -1,0 +1,28 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    num1 DW 5
+    num2 DW 10
+
+.CODE
+MAIN PROC
+    ; Initialize DS
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    ; Load numbers into registers
+    MOV AX, num1
+    MOV BX, num2
+    
+    ; Task 02: Swap AX and BX
+    XCHG AX, BX
+    
+    ; Store swapped values back
+    MOV num1, AX
+    MOV num2, BX
+    
+    ; Exit to DOS
+    MOV AX, 4C00H
+    INT 21H
+MAIN ENDP
+END MAIN

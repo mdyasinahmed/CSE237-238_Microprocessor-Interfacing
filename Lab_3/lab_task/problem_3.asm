@@ -1,0 +1,18 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+.CODE
+MAIN PROC
+;iniitialize DS
+MOV AX,@DATA
+MOV DS,AX
+;enter your code here
+MOV AX, 15    
+MOV BX, 10  
+ADD AX, BX      ; AX = AX + BX
+;exit to DOS
+MOV AX,4C00H
+INT 21H
+MAIN ENDP
+END MAIN

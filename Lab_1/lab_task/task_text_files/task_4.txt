@@ -1,0 +1,28 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    num1 DW 5
+    num2 DW 10
+    result DW ?
+
+.CODE
+MAIN PROC
+    ; Initialize DS
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    ; Load numbers into registers
+    MOV AX, num1
+    MOV BX, num2
+    
+    ; Task 04: Subtract BX from AX
+    SUB AX, BX
+    
+    ; Store result
+    MOV result, AX
+    
+    ; Exit to DOS
+    MOV AX, 4C00H
+    INT 21H
+MAIN ENDP
+END MAIN

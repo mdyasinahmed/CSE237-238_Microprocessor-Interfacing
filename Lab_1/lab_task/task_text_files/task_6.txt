@@ -1,0 +1,40 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    A DW ?
+    B DW ?
+    C DW ?
+
+.CODE
+MAIN PROC
+    ; Initialize DS
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    ; Task 06.1: A = B - A
+    MOV AX, B
+    SUB AX, A
+    MOV A, AX
+    
+    ; Task 06.2: A = -(A + 1)
+    INC AX          ; AX = A + 1
+    NEG AX          ; AX = -(A + 1)
+    MOV A, AX
+    
+    ; Task 06.3: C = A + (B + 1); Use INC
+    MOV AX, B
+    INC AX          ; AX = B + 1
+    ADD AX, A       ; AX = A + (B + 1)
+    MOV C, AX
+    
+    ; Task 06.4: A = B – (A – 1); Use DEC
+    DEC A           ; A = A - 1
+    MOV AX, B
+    SUB AX, A       ; AX = B - (A - 1)
+    MOV A, AX
+    
+    ; Exit to DOS
+    MOV AX, 4C00H
+    INT 21H
+MAIN ENDP
+END MAIN
