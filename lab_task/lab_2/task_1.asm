@@ -1,9 +1,9 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-    X DW 6      ; You can change these values as needed
-    Y DW 3
-    Z DW 2
+    X DW  30     
+    Y DW 20
+    Z DW 10
     RESULT1 DW ?
     RESULT2 DW ?
     RESULT3 DW ?
@@ -15,22 +15,22 @@ MAIN PROC
     MOV DS, AX
     
     ; 1. X * Y
-    MOV AX, X          ; Move X into AX
-    MOV BX, Y          ; Move Y into BX
-    IMUL BX            ; AX = AX * BX
+    MOV AX, X          
+    MOV BX, Y          
+    IMUL BX            
     MOV RESULT1, AX    ; Store the result in RESULT1
     
     ; 2. X / Y
-    MOV AX, X          ; Move X into AX
-    MOV BX, Y          ; Move BX with Y
+    MOV AX, X          
+    MOV BX, Y          
     XOR DX, DX         ; Clear DX before division
     IDIV BX            ; AX = AX / BX, remainder in DX
     MOV RESULT2, AX    ; Store the result in RESULT2
     
     ; 3. X * Y / Z
-    MOV AX, X          ; Move X into AX
-    MOV BX, Y          ; Move Y into BX
-    IMUL BX            ; AX = AX * BX
+    MOV AX, X          
+    MOV BX, Y          
+    IMUL BX            
     MOV BX, Z          ; Move Z into BX
     IDIV BX            ; AX = AX / BX
     MOV RESULT3, AX    ; Store the result in RESULT3

@@ -1,0 +1,39 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    X DW 30
+    Y DW 20
+    Z DW 10
+    RESULT1 DW ?
+    RESULT2 DW ?
+    RESULT3 DW ?
+    
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV AX, X
+    MOV BX, Y
+    MUL BX
+    MOV RESULT1, AX
+
+    MOV AX, X
+    MOV BX, Y
+    XOR DX, DX
+    DIV BX
+    MOV RESULT2, AX
+
+    MOV AX, X
+    MOV BX, Y
+    MUL BX
+    MOV BX, Z
+    XOR DX, DX
+    DIV BX
+    MOV RESULT3, AX
+
+    MOV AX, 4C00H
+    INT 21H
+
+MAIN ENDP
+END MAIN
