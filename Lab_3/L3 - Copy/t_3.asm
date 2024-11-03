@@ -2,6 +2,7 @@
 .STACK 100H
 .DATA
 
+<<<<<<< HEAD
 char DB ?           ; Store the character
 newline DB 13, 10, '$'  ; Newline characters for formatting
 
@@ -43,3 +44,61 @@ MAIN PROC
     INT 21H
 MAIN ENDP
 END MAIN
+=======
+SUM DB "SUM IS : $"
+
+
+.CODE
+MAIN PROC
+;iniitialize DS
+MOV AX,@DATA
+MOV DS,AX
+;enter your code here
+
+
+MOV AH, 1    ; FIRST NUMBER
+INT 21H
+SUB AL, '0' 
+
+MOV BL, AL
+
+  
+
+MOV AH, 1    ;SECOND NUMBER
+INT 21H
+SUB AL, '0'
+
+MOV CL, AL
+
+
+
+ADD CL, BL
+
+ADD CL, '0'
+
+
+
+MOV AH, 2       ;NEW LINE
+MOV DL, 0AH
+INT 21H
+MOV DL, 0DH
+INT 21H
+
+
+MOV AH, 9         ; THE SUM IS
+LEA DX, SUM
+INT 21H
+
+
+MOV DL, CL
+MOV AH, 2
+INT 21H
+
+
+
+;exit to DOS
+MOV AX,4C00H
+INT 21H
+MAIN ENDP
+END MAIN
+>>>>>>> 03b820f333bbbd2377d372dee6f0b6eef2b7f9a5
