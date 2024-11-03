@@ -1,7 +1,7 @@
 .MODEL SMALL
 .STACK 100H
 .DATA  
-    prompt1  DB 'Enter first number (0-9): $'
+    input1  DB 'Enter first number (0-9): $'
     prompt2  DB 'Enter second number (0-9): $'
     addMsg   DB 'Addition: $'
     subMsg   DB 'Subtraction: $'
@@ -20,7 +20,7 @@ MAIN PROC
     MOV DS, AX
 
     ; Prompt for first number
-    LEA DX, prompt1
+    LEA DX, input1
     MOV AH, 09H
     INT 21H
 
