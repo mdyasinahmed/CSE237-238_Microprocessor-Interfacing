@@ -1,0 +1,60 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+SUM DB "SUM IS : $"
+
+
+.CODE
+MAIN PROC
+;iniitialize DS
+MOV AX,@DATA
+MOV DS,AX
+;enter your code here
+
+
+MOV AH, 1    ; FIRST NUMBER
+INT 21H
+SUB AL, '0' 
+
+MOV BL, AL
+
+  
+
+MOV AH, 1    ;SECOND NUMBER
+INT 21H
+SUB AL, '0'
+
+MOV CL, AL
+
+
+
+ADD CL, BL
+
+ADD CL, '0'
+
+
+
+MOV AH, 2       ;NEW LINE
+MOV DL, 0AH
+INT 21H
+MOV DL, 0DH
+INT 21H
+
+
+MOV AH, 9         ; THE SUM IS
+LEA DX, SUM
+INT 21H
+
+
+MOV DL, CL
+MOV AH, 2
+INT 21H
+
+
+
+;exit to DOS
+MOV AX,4C00H
+INT 21H
+MAIN ENDP
+END MAIN
