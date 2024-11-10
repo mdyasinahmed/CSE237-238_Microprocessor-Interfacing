@@ -1,105 +1,104 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-num1 DB ?          ; First number (input as ASCII)
-num2 DB ?          ; Second number (input as ASCII)
-result DB ?        ; Result of the operation (in ASCII)
-newline DB 13, 10, '$' ; Newline for formatting
+num1 db 'Enter first number (0-9): $'       
+num2 db 'Enter second number (0-9): $'      
 
-addMsg DB 'Addition: $'
-subMsg DB 'Subtraction: $'
-mulMsg DB 'Multiplication: $'
-divMsg DB 'Division: $'
+addResult db 'Addition result: $'           
+subResult db 'Subtraction result: $'        
+mulResult db 'Multiplication result: $'      
+divResult db 'Division result (Quotient): $' 
+remResult db 'Remainder: $'                 ; For displaying remainder in division
 
 .CODE
 MAIN PROC
-    ; Initialize DS
     MOV AX, @DATA
     MOV DS, AX
 
-    ; --- Input first number ---
-    MOV AH, 01H           ; Read a character from input
+    ; Display prompt for the first number and take input
+    LEA DX, num1
+    MOV AH, 9
     INT 21H
-    SUB AL, '0'           ; Convert ASCII to integer
-    MOV num1, AL          ; Store as num1
+    MOV AH, 1
+    INT 21H
+    SUB AL, '0'            ; Convert ASCII to numeric
+    MOV BL, AL             ; Store the first number in BL
 
-    ; --- Input second number ---
-    MOV AH, 01H           ; Read another character
+    ; Display prompt for the second number and take input
+    LEA DX, num2
+    MOV AH, 9
     INT 21H
-    SUB AL, '0'           ; Convert ASCII to integer
-    MOV num2, AL          ; Store as num2
+    MOV AH, 1
+    INT 21H
+    SUB AL, '0'            ; Convert ASCII to numeric
+    MOV CL, AL             ; Store the second number in CL
 
-    ; --- Perform Addition ---
-    MOV AL, num1          ; Load num1
-    ADD AL, num2          ; Add num2
-    ADD AL, '0'           ; Convert result to ASCII
-    MOV result, AL        ; Store the result
+    ; Addition Operation
+    MOV AL, BL
+    ADD AL, CL             ; Perform addition
+    ADD AL, '0'            ; Convert result to ASCII for display
+    LEA DX, addResult
+    MOV AH, 9
+    INT 21H                ; Print "Addition result: "
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H                ; Print the addition result
 
-    ; Display addition result
-    LEA DX, newline
-    MOV AH, 09H
-    INT 21H
-    LEA DX, addMsg
-    MOV AH, 09H
-    INT 21H
-    MOV DL, result
-    MOV AH, 02H
-    INT 21H
+    ; Subtraction Operation
+    MOV AL, BL
+    SUB AL, CL             ; Perform subtraction
+    ADD AL, '0'            ; Convert result to ASCII for display
+    LEA DX, subResult
+    MOV AH, 9
+    INT 21H                ; Print "Subtraction result: "
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H                ; Print the subtraction result
 
-    ; --- Perform Subtraction ---
-    MOV AL, num1          ; Load num1
-    SUB AL, num2          ; Subtract num2
-    ADD AL, '0'           ; Convert result to ASCII
-    MOV result, AL        ; Store the result
+    ; Multiplication Operation
+    MOV AL, BL
+    MUL CL                 ; Perform multiplication (result is in AX)
+    MOV DL, AH             ; Save higher byte if it overflows
+    ADD AL, '0'            ; Convert low byte to ASCII for display
+    LEA DX, mulResult
+    MOV AH, 9
+    INT 21H                ; Print "Multiplication result: "
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H                ; Print the lower digit of multiplication result
 
-    ; Display subtraction result
-    LEA DX, newline
-    MOV AH, 09H
-    INT 21H
-    LEA DX, subMsg
-    MOV AH, 09H
-    INT 21H
-    MOV DL, result
-    MOV AH, 02H
-    INT 21H
+    ; Check if there is overflow (i.e., AH is not zero)
+    CMP DL, 0
+    JE SKIP_OVERFLOW
+    ADD DL, '0'            ; Convert high byte to ASCII
+    MOV AH, 2
+    INT 21H                ; Print the higher digit if overflow occurred
 
-    ; --- Perform Multiplication ---
-    MOV AL, num1          ; Load num1
-    MOV BL, num2          ; Load num2
-    MUL BL                ; Multiply AL by BL, result in AX
-    ADD AL, '0'           ; Convert result to ASCII (only if result fits in AL)
-    MOV result, AL        ; Store the result
+SKIP_OVERFLOW:
 
-    ; Display multiplication result
-    LEA DX, newline
-    MOV AH, 09H
-    INT 21H
-    LEA DX, mulMsg
-    MOV AH, 09H
-    INT 21H
-    MOV DL, result
-    MOV AH, 02H
-    INT 21H
+    ; Division Operation
+    MOV AL, BL
+    MOV AH, 0
+    DIV CL                 ; Perform division (quotient in AL, remainder in AH)
+    ADD AL, '0'            ; Convert quotient to ASCII for display
+    LEA DX, divResult
+    MOV AH, 9
+    INT 21H                ; Print "Division result (Quotient): "
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H                ; Print the quotient
 
-    ; --- Perform Division ---
-    MOV AL, num1          ; Load num1
-    MOV BL, num2          ; Load num2
-    DIV BL                ; Divide AL by BL, quotient in AL
-    ADD AL, '0'           ; Convert result to ASCII
-    MOV result, AL        ; Store the result
+    ; Display remainder
+    MOV AL, AH
+    ADD AL, '0'            ; Convert remainder to ASCII for display
+    LEA DX, remResult
+    MOV AH, 9
+    INT 21H                ; Print "Remainder: "
+    MOV DL, AL
+    MOV AH, 2
+    INT 21H                ; Print the remainder
 
-    ; Display division result
-    LEA DX, newline
-    MOV AH, 09H
-    INT 21H
-    LEA DX, divMsg
-    MOV AH, 09H
-    INT 21H
-    MOV DL, result
-    MOV AH, 02H
-    INT 21H
-
-    ; Exit to DOS
+    ; Exit program
     MOV AX, 4C00H
     INT 21H
 MAIN ENDP
