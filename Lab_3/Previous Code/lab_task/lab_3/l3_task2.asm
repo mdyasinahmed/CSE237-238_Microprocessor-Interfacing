@@ -1,6 +1,4 @@
 ;1)sub 
-
-
 .MODEL SMALL
 .STACK 100H
 .DATA

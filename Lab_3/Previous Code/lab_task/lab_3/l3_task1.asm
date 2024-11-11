@@ -13,7 +13,7 @@ MOV DS,AX
 ;enter your code here
   
   
-    LEA DX, prompt 
+    LEA DX, prompt  
     MOV AH, 9      
     INT 21h        
 

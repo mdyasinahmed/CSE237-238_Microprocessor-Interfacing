@@ -26,7 +26,6 @@ add bl,10
 
 ;mov cl,bl 
 
-
 MOV AH, 2           
 MOV DL, 0DH         
 INT 21H              
@@ -49,7 +48,6 @@ ADD AL,30h
 MOV DL, AL                     
 MOV AH, 2                    
 INT 21H                   
-
     
 MOV AL, CL 
 ADD AL,30h                   
