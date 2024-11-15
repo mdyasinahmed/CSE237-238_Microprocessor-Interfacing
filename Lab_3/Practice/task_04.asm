@@ -1,0 +1,76 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    X DB ?
+    Y DB ?
+    OUTPUT_MSG DB "THE SUM OF $"
+    AND_IS DB " AND $"
+    IS_MSG DB " IS $"
+.CODE
+MAIN PROC
+    ; INITIALIZE DS
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    ; TAKING INPUT FOR X
+    MOV AH, 1
+    INT 21H
+    SUB AL, 48
+    MOV X, AL
+    
+    ; TAKING INPUT FOR Y
+    MOV AH, 1
+    INT 21H
+    SUB AL, 48
+    MOV Y, AL
+    
+    ; POSITIONING THE CURSOR
+    MOV AH, 2
+    MOV DL, 0DH
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    ; CALCULATING SUM OF X AND Y
+    MOV BL, X
+    MOV CL, Y
+    ADD BL, CL
+    ADD BL, 48
+    ADD X, 48
+    ADD Y, 48
+    
+    ; PRINTING OUTPUT MESSAGE
+    LEA DX, OUTPUT_MSG
+    MOV AH, 9
+    INT 21H
+    
+    ; PRINTING X
+    MOV DL, X
+    MOV AH, 2
+    INT 21H
+    
+    ; PRINTING 'AND' MESSAGE
+    LEA DX, AND_IS
+    MOV AH, 9
+    INT 21H
+    
+    ; PRINTING Y
+    MOV DL, Y
+    MOV AH, 2
+    INT 21H
+    
+    ; PRINTING "IS" MESSAGE
+    LEA DX, IS_MSG
+    MOV AH, 9
+    INT 21H
+    
+    ; PRINTING SUM RESULT
+    MOV DL, BL
+    MOV AH, 2
+    INT 21H
+    
+    ; EXIT TO DOS
+    MOV AX, 4C00H
+    INT 21H
+MAIN ENDP
+END MAIN
