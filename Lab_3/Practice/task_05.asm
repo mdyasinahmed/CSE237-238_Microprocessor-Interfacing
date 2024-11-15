@@ -1,0 +1,74 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    INPUT_MSG DB "ENTER THREE INITIALS: $"
+    A DB ?
+    B DB ?
+    C DB ?
+.CODE
+MAIN PROC
+    ; INITIALIZE DS
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    ; PRINTING INPUT MESSAGE
+    LEA DX, INPUT_MSG
+    MOV AH, 9
+    INT 21H
+    
+    ; TAKING INPUT FOR A
+    MOV AH, 1
+    INT 21H
+    MOV A, AL
+    
+    ; TAKING INPUT FOR B
+    MOV AH, 1
+    INT 21H
+    MOV B, AL
+    
+    ; TAKING INPUT FOR C
+    MOV AH, 1
+    INT 21H
+    MOV C, AL
+    
+    ; NEW LINE AND POSITIONING CURSOR
+    MOV AH, 2
+    MOV DL, 0DH
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    ; PRINTING A
+    MOV DL, A
+    MOV AH, 2
+    INT 21H
+    
+    ; NEW LINE AND POSITIONING CURSOR
+    MOV AH, 2
+    MOV DL, 0DH
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    ; PRINTING B
+    MOV DL, B
+    MOV AH, 2
+    INT 21H
+    
+    ; NEW LINE AND POSITIONING CURSOR
+    MOV AH, 2
+    MOV DL, 0DH
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    
+    ; PRINTING C
+    MOV DL, C
+    MOV AH, 2
+    INT 21H
+    
+    ; EXIT TO DOS
+    MOV AX, 4C00H
+    INT 21H
+MAIN ENDP
+END MAIN
