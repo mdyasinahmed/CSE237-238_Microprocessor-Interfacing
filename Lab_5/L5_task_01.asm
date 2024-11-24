@@ -3,7 +3,8 @@
 .STACK 100H 
  
 .DATA  
-    STAR DB "*$"
+
+
 .CODE  
 MAIN PROC  
  
@@ -15,13 +16,18 @@ MOV DS,AX
 ;enter your code here 
     ; TASK 01 : WRITE A COUNT-CONTROLLED LOOP TO DISPLAY A ROW OF 80 STARS.
     
-    MOV CX, 80
+    MOV CX, 5
+    MOV AH, 2
     
-    BEGIN:
-        MOV AH, 9
-        LEA DX, STAR
-        INT 21H
-        LOOP BEGIN 
+    
+    START:
+    MOV DL, '*'
+    INT 21H
+    MOV DL, 0AH
+    INT 21H
+    MOV DL, 0DH
+    INT 21H    
+    LOOP START 
 
 ;exit to DOS  
                 
